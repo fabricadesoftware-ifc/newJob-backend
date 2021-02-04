@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:12
+    restart: always
+    environment: 
+      POSTGRES_USER: newjob
+      POSTGRES_PASSWORD: newjob
+      POSTGRES_DB: newjob_db
+    volumes: 
+      - db:/var/lib/postgresql/data
+    ports:
+      - "8270:5432"
+
+volumes: 
+  db:
