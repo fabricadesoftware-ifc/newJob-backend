@@ -7,12 +7,16 @@ from backend.files.models import Image
 
 
 class User(AbstractUser):
+    first_name = None
+    last_name = None
+
     public_id = models.CharField(
         max_length=255,
         default=uuid.uuid4(),
         unique=True,
         help_text="Random sequence to be used as a public identifier.",
     )
+    name = models.CharField(null=True, max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=31, blank=True)
     linkedin = models.URLField(null=True)
@@ -27,5 +31,8 @@ class User(AbstractUser):
         default=None,
     )
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "username"
+
+    def save(self, *args, **kwargs):
+        self.username = self.email
+        super(User, self).save(*args, **kwargs)

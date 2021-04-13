@@ -7,3 +7,9 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ["id", "name", "email", "cnpj"]
+
+
+class CompanyDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ["id", "name"]
