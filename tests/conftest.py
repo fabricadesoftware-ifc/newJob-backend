@@ -3,7 +3,7 @@ from django.contrib.auth.models import Permission
 from rest_framework.test import APIClient
 from model_bakery import baker
 
-from backend.core.models import User, ContractType
+from backend.core.models import User, ContractType, Company
 
 
 @pytest.fixture()
@@ -33,5 +33,16 @@ def contractType_factory():
         contractType.save()
 
         return contractType
+
+    return _factory
+
+
+@pytest.fixture
+def company_factory():
+    def _factory():
+        company = baker.make(Company)
+        company.save()
+
+        return company
 
     return _factory

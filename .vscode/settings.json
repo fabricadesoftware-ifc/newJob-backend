@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\beckh\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\newjob-nsqf8hE3-py3.9",
+    "python.pythonPath": "/home/eduardo/.cache/pypoetry/virtualenvs/newjob-M_8FBLL_-py3.9/bin/python",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,

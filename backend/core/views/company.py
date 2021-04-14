@@ -5,6 +5,7 @@ from backend.core.serializers import CompanySerializer, CompanyDetailSerializer
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
+    lookup_field = "id"
     queryset = Company.objects.all()
     serializer_classes = {
         "list": CompanyDetailSerializer,
