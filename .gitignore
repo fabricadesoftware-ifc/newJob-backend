@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/django,vscode,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=django,vscode,python
 
@@ -220,3 +219,4 @@ dmypy.json
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/django,vscode,python
+.vscode
