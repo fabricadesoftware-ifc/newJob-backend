@@ -5,5 +5,7 @@ from backend.core.serializers import ContractTypeSerializer
 
 
 class ContractTypeViewSet(viewsets.ModelViewSet):
+    lookup_field = "id"
     queryset = ContractType.objects.all()
     serializer_class = ContractTypeSerializer
+    http_method_names = ["get", "delete", "patch", "post"]
