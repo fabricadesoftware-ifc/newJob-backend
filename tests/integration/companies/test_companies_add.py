@@ -23,7 +23,7 @@ def test_add_companies_nao_autorizado(api_client, user_factory):
 
 
 @pytest.mark.django_db
-def test_add_company_nao_autenticado(api_client, contractType_factory):
+def test_add_company_nao_autenticado(api_client):
     # QUANDO a API é chamada para criar uma empresa válido.
     resp = api_client.post(reverse("company-list"), {"name": "Nova empresa"})
 
@@ -32,15 +32,27 @@ def test_add_company_nao_autenticado(api_client, contractType_factory):
 
 
 @pytest.mark.django_db
-def test_add_contractType_valido(api_client, user_factory):
+def test_add_company_valido(api_client, user_factory, contractType_factory):
     # DADO um usuário
     user = user_factory(name="user", permissions=["core.add_company"])
 
     # DADO que um usuario devidamente autenticado
     api_client.force_authenticate(user=user)
 
+    # DADOS dois tipos de contratos
+    tipoContrato1 = contractType_factory(description="CLT")
+    tipoContrato2 = contractType_factory(description="PJ")
+
     # QUANDO a API é chamada para criar uma empresa válida.
-    resp = api_client.post(reverse("company-list"), {"name": "Nova empresa", "email": "email@novaempresa.com", "cnpj": "10635424000186"})
+    resp = api_client.post(
+        reverse("company-list"),
+        {
+            "name": "Nova empresa",
+            "email": "email@novaempresa.com",
+            "cnpj": "10635424000186",
+            "contract_types": [tipoContrato1.id, tipoContrato2.id],
+        },
+    )
 
     # ENTÃO a resposta deve ser created (201)
     assert resp.status_code == status.HTTP_201_CREATED
@@ -48,9 +60,13 @@ def test_add_contractType_valido(api_client, user_factory):
     # E ENTÃO o item alterado deve ser devolvido
     assert resp.data["name"] == "Nova empresa"
 
+    # E ENTÃO uma lista de tipos de contrato deve ser retornada
+    pprint.pprint(resp.data)
+    assert resp.data["contract_types"][0]["description"] == tipoContrato1.description
+
 
 @pytest.mark.django_db
-def test_add_contractType_invalido(api_client, user_factory):
+def test_add_company_invalido(api_client, user_factory):
     # DADO um usuário
     user = user_factory(name="user", permissions=["core.add_company"])
 
