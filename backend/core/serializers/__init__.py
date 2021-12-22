@@ -1,4 +1,7 @@
 from .auth import AuthSerializer
-from .contractType import ContractTypeSerializer
 from .company import CompanySerializer, CompanyDetailSerializer
-from .user import UserSerializer, UserProfileSerializer
+from .contractType import ContractTypeSerializer
+from .job import JobSerializer
+from .local import LocalSerializer
+from .state import StateSerializer
+from .userJob import UserJobSerializer
