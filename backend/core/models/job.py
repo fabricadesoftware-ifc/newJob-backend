@@ -6,7 +6,7 @@ from .local import Local
 
 class Job(models.Model):
     title = models.CharField(max_length=255)
-    description = models.CharField(max_length=14, unique=True)
+    description = models.TextField()
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     contract_types = models.ManyToManyField(ContractType)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
