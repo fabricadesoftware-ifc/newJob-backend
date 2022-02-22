@@ -5,11 +5,9 @@ from .contractType import ContractTypeSerializer
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    contract_types = ContractTypeSerializer(many=True, read_only=True)
-
     class Meta:
         model = Company
-        fields = ["id", "name", "email", "cnpj", "contract_types"]
+        fields = ["id", "name", "email", "cnpj"]
 
 
 class CompanyDetailSerializer(serializers.ModelSerializer):

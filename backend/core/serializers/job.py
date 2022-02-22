@@ -7,10 +7,19 @@ from backend.core.serializers.local import LocalSerializer
 
 class JobSerializer(serializers.ModelSerializer):
 
-    contract_types = ContractTypeSerializer(read_only=True, many=True)
     company = CompanyDetailSerializer(read_only=True)
     local = LocalSerializer(read_only=True)
- 
+
     class Meta:
         model = Job
-        fields = ["id", "title", "description", "local", "contract_types", "company", "deadline"]
+        fields = ["id", "title", "description", "local", "company", "deadline"]
+
+
+class JobDetailSerializer(serializers.ModelSerializer):
+
+    company = CompanyDetailSerializer(read_only=True)
+    local = LocalSerializer(read_only=True)
+
+    class Meta:
+        model = Job
+        fields = ["id", "title", "description", "local", "company", "deadline"]

@@ -5,6 +5,8 @@ from backend.core.serializers import ContractTypeSerializer
 
 
 class ContractTypeViewSet(viewsets.ModelViewSet):
+    authentication_classes = []
+    permission_classes = []
     lookup_field = "id"
     queryset = ContractType.objects.all()
     serializer_class = ContractTypeSerializer
