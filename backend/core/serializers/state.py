@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.core.models import State
+from backend.core.models.state import State
 
 
 class StateSerializer(serializers.ModelSerializer):
