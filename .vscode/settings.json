@@ -1,7 +1,8 @@
 {
-    "python.pythonPath": "/home/eduardo/.cache/pypoetry/virtualenvs/newjob-M_8FBLL_-py3.9/bin/python",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "python.autoComplete.extraPaths": ["__pypackages__/3.11/lib"],
+    "python.analysis.extraPaths": ["__pypackages__/3.11/lib"]
 }
