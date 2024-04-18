@@ -19,7 +19,7 @@ dependencies = [
     "rules<3.0,>=2.2",
     # "python-magic-bin==0.4.14",
 ]
-requires-python = "==3.11.*"
+requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
