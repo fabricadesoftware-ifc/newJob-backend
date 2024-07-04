@@ -6,7 +6,7 @@ from backend.core.serializers.state import StateSerializer
 class LocalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Local
-        fields = ["longitude", "latitude", "street_number", "street_name", "city", "state"]
+        fields = ["id","longitude", "latitude", "street_number", "street_name", "city", "state"]
 
 
 class LocalDetailSerializer(serializers.ModelSerializer):
@@ -14,4 +14,4 @@ class LocalDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Local
-        fields = ["longitude", "latitude", "street_number", "street_name", "city", "state"]
+        fields = ["id","longitude", "latitude", "street_number", "street_name", "city", "state"]
