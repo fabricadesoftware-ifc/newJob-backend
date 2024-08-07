@@ -4,4 +4,4 @@ from .contractType import ContractType
 from .job import Job
 from .local import Local
 from .state import State
-from .userJob import UserJob
+# from .userJob import UserJob

@@ -5,6 +5,8 @@ from django.db import models
 
 from backend.files.models import Image
 
+from .job import Job
+
 
 class User(AbstractUser):
     first_name = None
@@ -30,6 +32,7 @@ class User(AbstractUser):
         null=True,
         default=None,
     )
+    jobs = models.ManyToManyField(Job, related_name="users", blank=True, null=True)
 
     USERNAME_FIELD = "username"
 
