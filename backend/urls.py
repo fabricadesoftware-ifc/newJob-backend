@@ -16,6 +16,9 @@ from drf_spectacular.views import (
 from backend.core.router import router
 from backend.files.router import router as router_files
 
+from backend.core.auth.login import LoginUser
+from backend.core.auth.register import RegisterUser
+
 
 urlpatterns = [
     path("api/", include(router.urls)),
@@ -37,6 +40,8 @@ urlpatterns = [
     ),
     # Administration site
     path("api/admin/", admin.site.urls),
+    path("api/login", LoginUser, name="login"),
+    path("api/register", RegisterUser, name="register")
 ]
 
 from django.conf.urls.static import static
