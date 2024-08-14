@@ -16,6 +16,7 @@ class User(AbstractUser):
         unique=True,
         help_text="Random sequence to be used as a public identifier.",
     )
+    username = models.CharField(max_length=255, unique=True, null=True, blank=True)
     name = models.CharField(null=True, max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=31, blank=True)
@@ -30,9 +31,12 @@ class User(AbstractUser):
         null=True,
         default=None,
     )
+    # objects = UserManager()
 
     USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
+    EMAIL_FIELD = "email"
 
-    def save(self, *args, **kwargs):
-        self.username = self.email
-        super(User, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.username = self.email
+    #     super(User, self).save(*args, **kwargs)
