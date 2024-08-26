@@ -18,7 +18,8 @@ from backend.files.router import router as router_files
 
 from backend.core.auth.login import LoginUser
 from backend.core.auth.register import RegisterUser
-
+from backend.core.auth.reset_password import ResetPasswordUser
+from backend.core.auth.forgot_password import ForgotPasswordUser
 
 urlpatterns = [
     path("api/", include(router.urls)),
@@ -41,7 +42,10 @@ urlpatterns = [
     # Administration site
     path("api/admin/", admin.site.urls),
     path("api/login", LoginUser, name="login"),
-    path("api/register", RegisterUser, name="register")
+    path("api/register", RegisterUser, name="register"),
+    path("api/forgot-password", ForgotPasswordUser, name="forgot-password"),
+    path("api/reset-password", ResetPasswordUser, name="reset-password"),
+
 ]
 
 from django.conf.urls.static import static
