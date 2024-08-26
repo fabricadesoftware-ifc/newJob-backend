@@ -23,6 +23,7 @@ class User(AbstractUser):
     linkedin = models.URLField(null=True)
     profile_title = models.CharField(max_length=255, null=True)
     profile_description = models.TextField(null=True)
+    reset_code = models.CharField(max_length=6, null=True, blank=True)
     avatar = models.ForeignKey(
         Image,
         on_delete=models.CASCADE,
