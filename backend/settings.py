@@ -115,11 +115,12 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "backend.core.authentication.TokenAuthentication",
     ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # "DEFAULT_PERMISSION_CLASSES": (
-    #     "rest_framework.permissions.DjangoModelPermissions",
-    # ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
 }
 
 SPECTACULAR_SETTINGS = {
@@ -138,3 +139,9 @@ REST_REGISTRATION = {
     "VERIFICATION_FROM_EMAIL": "no-reply@example.com",
     "PROFILE_SERIALIZER_CLASS": "backend.core.serializers.UserProfileSerializer",
 }
+
+# PASSAGE_APP_ID = os.getenv("PASSAGE_APP_ID", "app_id")
+# PASSAGE_API_KEY = os.getenv("PASSAGE_API_KEY", "api_key")
+PASSAGE_APP_ID='Hx4N1nXhUeVKMwAjfn5QgcfQ'
+PASSAGE_API_KEY='omstZcqpIW.G6sVLZi2kyBZal92eVg38afdB2KwVenivYlmBxol3BJUyqrlg3SflpguqBTTNTNw'
+PASSAGE_AUTH_STRATEGY = 2
