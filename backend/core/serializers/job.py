@@ -5,9 +5,13 @@ from backend.core.serializers.local import LocalDetailSerializer
 
 
 class JobSerializer(serializers.ModelSerializer):
+    wage_display = serializers.SerializerMethodField()
+
     class Meta:
         model = Job
-        fields = ["id", "title", "description", "local", "company", "deadline"]
+        fields = "__all__"
+    def get_wage_display(self, obj):
+        return obj.wage if obj.wage is not None else "A Combinar"
 
 
 class JobDetailSerializer(serializers.ModelSerializer):
