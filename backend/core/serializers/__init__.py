@@ -5,3 +5,5 @@ from .job import JobSerializer
 from .local import LocalSerializer
 from .state import StateSerializer
 from .userJob import UserJobSerializer
+from .category import CategorySerializer
+from .benefit import BenefitSerializer

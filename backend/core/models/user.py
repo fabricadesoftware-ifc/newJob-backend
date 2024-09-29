@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _  # Para tradução
 from backend.files.models import Image
 
+
 class UserManager(BaseUserManager):
     """Manager para usuários."""
 
@@ -33,13 +34,12 @@ class User(AbstractUser):
     first_name = None
     last_name = None
 
-    public_id = models.CharField(
-        max_length=255,
-        default=uuid.uuid4,  
+    public_id = models.UUIDField(
+        default=uuid.uuid4, 
         unique=True,
         help_text=_("Sequência aleatória usada como identificador público."),
     )
-    username = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    username = models.CharField(max_length=255, unique=True)
     name = models.CharField(null=True, max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=31, blank=True)
@@ -55,14 +55,12 @@ class User(AbstractUser):
         null=True,
         default=None,
     )
-    passage_id = models.CharField(
-        max_length=255,
-        default=uuid.uuid4,  
+    passage_id = models.UUIDField(
+        default=uuid.uuid4(), 
         unique=True,
         verbose_name=_("ID de passagem"),
         help_text=_("Identificador de passagem")
     )
-    
     objects = UserManager()
 
     USERNAME_FIELD = "username"
