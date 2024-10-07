@@ -23,7 +23,7 @@ dependencies = [
     "passage-identity>=2.1.4",
     "python-magic-bin>=0.4.14; sys_platform == \"win32\" or sys_platform == \"darwin\"",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
 
