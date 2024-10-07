@@ -4,6 +4,7 @@ from .local import Local
 from .benefit import Benefit
 from .category import Category
 from backend.files.models import Image
+from django.utils import timezone
 
 
 class Job(models.Model):
@@ -26,6 +27,7 @@ class Job(models.Model):
     benefits = models.ManyToManyField(Benefit, related_name="jobs", blank=True)
     educatiol_Level = models.IntegerField(choices=EducationLevel.choices, default=EducationLevel.MEDIO)
     category = models.ForeignKey(Category, related_name="jobs", on_delete=models.PROTECT, null=True, blank=True)
+    isExpired = models.BooleanField(default=False)
     image_job = models.ForeignKey(
         Image, 
         related_name="+",       
@@ -33,9 +35,15 @@ class Job(models.Model):
         null=True,
         blank=True,
         default=None,
-        )
+    )
 
-
+    def check_expiration(self):
+        if self.deadline < timezone.now().date():
+            self.isExpired = True
+            self.save()
+        else:
+            self.isExpired = False
+            self.save()
 
     def __str__(self):
         return self.title

@@ -6,14 +6,23 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class JobSerializer(serializers.ModelSerializer):
-    wage_display = serializers.SerializerMethodField()
+    wage = serializers.DecimalField(
+        max_digits=7, 
+        decimal_places=2, 
+        required=False, 
+        allow_null=True
+    )
 
     class Meta:
         model = Job
         fields = "__all__"
 
-    def get_wage_display(self, obj):
-        return obj.wage if obj.wage is not None else "A Combinar"
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        representation['wage'] = representation['wage'] if representation['wage'] is not None else "A Combinar"
+
+        return representation
 
 
 class JobDetailSerializer(serializers.ModelSerializer):
