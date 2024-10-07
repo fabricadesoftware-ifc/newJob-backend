@@ -21,14 +21,21 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, username, email, password=None, **extra_fields):
         """Cria, salva e retorna um superusuário."""
-        user = self.create_user(email, password)
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
+        # O 'username' deve ser passado como um argumento
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
 
+        # É importante garantir que 'username' e 'email' sejam fornecidos
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError("Superuser precisa ter is_staff=True.")
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError("Superuser precisa ter is_superuser=True.")
+
+        user = self.create_user(email=email, password=password, username=username, **extra_fields)
         return user
+
 
 class User(AbstractUser):
     first_name = None
