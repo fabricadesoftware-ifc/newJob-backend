@@ -41,10 +41,10 @@ urlpatterns = [
     ),
     # Administration site
     path("api/admin/", admin.site.urls),
-    path("api/login", LoginUser, name="login"),
-    path("api/register", RegisterUser, name="register"),
-    path("api/forgot-password", ForgotPasswordUser, name="forgot-password"),
-    path("api/reset-password", ResetPasswordUser, name="reset-password"),
+    path("api/login/", LoginUser, name="login"),
+    path("api/register/", RegisterUser, name="register"),
+    path("api/forgot-password/", ForgotPasswordUser, name="forgot-password"),
+    path("api/reset-password/", ResetPasswordUser, name="reset-password"),
 
 ]
 

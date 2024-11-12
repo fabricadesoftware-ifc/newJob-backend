@@ -16,6 +16,7 @@ class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = "__all__"
+        depth = 1
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -31,6 +32,7 @@ class JobDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
+        depth = 1
         fields = ["id", "title", "description", "local", "company", "deadline"]
 
 

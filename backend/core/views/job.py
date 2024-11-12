@@ -10,7 +10,7 @@ class JobViewSet(viewsets.ModelViewSet):
     permission_classes = []
     lookup_field = "id"
     queryset = Job.objects.all()
-    serializer_classes = {"list": JobDetailSerializer, "retrieve": JobSerializer}
+    serializer_classes = {"list": JobSerializer, "retrieve": JobSerializer}
     default_serializer_class = JobSerializer
     pagination_class = JobPagination
 
