@@ -1,6 +1,5 @@
 from django.db import models
 from .company import Company
-from .local import Local
 from .benefit import Benefit
 from .category import Category
 from backend.files.models import Image
@@ -18,7 +17,6 @@ class Job(models.Model):
         DOUTORADO = 6, "Doutorado"
     title = models.CharField(max_length=255)
     description = models.TextField()
-    local = models.ForeignKey(Local, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     deadline = models.DateField()
     isPcd = models.BooleanField(default=False)
