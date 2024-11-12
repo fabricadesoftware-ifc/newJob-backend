@@ -7,3 +7,4 @@ from .state import StateSerializer
 from .userJob import UserJobSerializer
 from .category import CategorySerializer
 from .benefit import BenefitSerializer
+from .user import UserProfileSerializer
