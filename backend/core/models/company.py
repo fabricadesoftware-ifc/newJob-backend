@@ -1,16 +1,15 @@
 from django.db import models
-from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
+from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 from .contractType import ContractType
 from .local import Local
+from .job import Job
 from backend.files.models import Image
-
-
-
+import uuid
 def validate_cnpj(value):
     if not value.isdigit() or len(value) != 14:
         raise ValidationError("O CNPJ deve ter exatamente 14 dígitos e conter apenas números.")
-
 
 class Company(models.Model):
     class BusinessArea(models.TextChoices):
@@ -20,6 +19,7 @@ class Company(models.Model):
         EDUCACAO = "EDU", "Educação"
         COMERCIO = "COM", "Comércio"
         OUTRO = "OUT", "Outro"
+        
     name = models.CharField(max_length=255)
     fantasy_name = models.CharField(max_length=255, blank=True, null=True)
     cnpj = models.CharField(
@@ -54,13 +54,20 @@ class Company(models.Model):
         help_text="Digite o nome completo da pessoa de contato na empresa.",
         blank=True,
         null=True
-    )    
-    logo = models.ForeignKey(Image,  related_name="+",       
+    )
+    job = models.ForeignKey(Job, related_name="company", on_delete=models.CASCADE, blank=True, null=True)
+    logo = models.ForeignKey(
+        Image,  
+        related_name="+",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        default=None,)
-    
+        default=None
+    )
+    password = models.CharField(max_length=128, help_text="Digite uma senha segura.")
 
     def __str__(self):
         return self.name
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
