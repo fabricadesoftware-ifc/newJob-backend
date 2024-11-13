@@ -3,13 +3,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 
-from ..models import Company  # Certifique-se de importar o modelo Company corretamente
+from ..models.company import Company  
 
 @api_view(["POST"])
-@authentication_classes([])  # Permite o acesso sem autenticação
-@permission_classes([AllowAny])  # Permite acesso a qualquer um
+@authentication_classes([]) 
+@permission_classes([AllowAny])  
 def register_company(request):
-    # Obtém dados do corpo da requisição
     nome = request.data.get("nome")
     nome_fantasia = request.data.get("nome_fantasia")
     email = request.data.get("email")
@@ -18,14 +17,12 @@ def register_company(request):
     cidade = request.data.get("cidade")
     password = request.data.get("password")
 
-    # Verificação de dados obrigatórios
     if not nome or not nome_fantasia or not email or not password:
         return Response(
             {"message": "Nome, nome fantasia, email e senha são obrigatórios!"}, 
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    # Verifica se a empresa já existe pelo email ou nome fantasia
     if Company.objects.filter(email=email).exists():
         return Response(
             {"message": "Uma empresa com este email já existe"}, 
@@ -38,7 +35,6 @@ def register_company(request):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    # Cria o registro de empresa
     company = Company.objects.create(
         nome=nome,
         nome_fantasia=nome_fantasia,
