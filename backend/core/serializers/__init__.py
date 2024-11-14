@@ -4,7 +4,8 @@ from .contractType import ContractTypeSerializer
 from .job import JobSerializer, JobPagination
 from .local import LocalSerializer
 from .state import StateSerializer
-from .userJob import UserJobSerializer
+# from .userJob import UserJobSerializer
 from .category import CategorySerializer
 from .benefit import BenefitSerializer
-from .user import UserProfileSerializer
+from .user import UserProfileSerializer, UserDetailsSerializer
+from .jobApplication import JobApplicationSerializer
