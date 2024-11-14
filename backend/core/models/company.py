@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from .contractType import ContractType
 from .local import Local
 from backend.files.models import Image
-
+from .job import Job
 
 
 def validate_cnpj(value):
@@ -49,6 +49,7 @@ class Company(models.Model):
         null=True
     )
     local = models.ForeignKey(Local, on_delete=models.CASCADE, blank=True, null=True)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True, null=True)
     pessoa_de_contato = models.CharField(
         max_length=255,
         help_text="Digite o nome completo da pessoa de contato na empresa.",
