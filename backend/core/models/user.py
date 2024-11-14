@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _  # Para tradução
 from backend.files.models import Image
 
-
 class UserManager(BaseUserManager):
     """Manager para usuários."""
 
