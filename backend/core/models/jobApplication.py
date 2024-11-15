@@ -8,6 +8,7 @@ class JobApplication(models.Model):
         PENDENTE = 1, "Pendente"
         REJEITADO = 2, "Rejeitado"
         SELECIONADO = 3, "Selecionado"
+        NÃO_SELECIONADO = 4, "Não selecionado"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="applications")
