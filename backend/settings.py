@@ -145,3 +145,10 @@ REST_REGISTRATION = {
 PASSAGE_APP_ID='Hx4N1nXhUeVKMwAjfn5QgcfQ'
 PASSAGE_API_KEY='omstZcqpIW.G6sVLZi2kyBZal92eVg38afdB2KwVenivYlmBxol3BJUyqrlg3SflpguqBTTNTNw'
 PASSAGE_AUTH_STRATEGY = 2
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'gabriellima2803@gmail.com' 
+EMAIL_HOST_PASSWORD = 'dvwo mfks hyso corc' 
