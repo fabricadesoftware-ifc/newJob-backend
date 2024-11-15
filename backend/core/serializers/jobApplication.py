@@ -10,5 +10,5 @@ class JobApplicationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = JobApplication
-        fields = ["user", "application_date", "status"]
+        fields = ["id", "user", "application_date", "status"]
         depth = 1
