@@ -20,7 +20,6 @@ from backend.core.auth.login import LoginUser
 from backend.core.auth.register import RegisterUser
 from backend.core.auth.reset_password import ResetPasswordUser
 from backend.core.auth.forgot_password import ForgotPasswordUser
-from backend.core.auth.registerCompany import register_company
 
 urlpatterns = [
     path("api/", include(router.urls)),
@@ -46,7 +45,6 @@ urlpatterns = [
     path("api/register/", RegisterUser, name="register"),
     path("api/forgot-password/", ForgotPasswordUser, name="forgot-password"),
     path("api/reset-password/", ResetPasswordUser, name="reset-password"),
-    path("api/register-company/", register_company, name="register-company"),
 
 ]
 
