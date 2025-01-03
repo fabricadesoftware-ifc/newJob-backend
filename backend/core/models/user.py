@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _  # Para tradução
 from backend.files.models import Image
+from .local import Local
 
 class UserManager(BaseUserManager):
     """Manager para usuários."""
@@ -39,9 +40,16 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     first_name = None
     last_name = None
+    class EducationLevel(models.IntegerChoices):
+        FUNDAMENTAL = 1, "Ensino Fundamental",
+        MEDIO = 2, "Ensino Médio",
+        SUPERIOR = 3, "Ensino Superior",
+        GRADUACAO = 4, "Pós-Graduação",
+        MESTRADO = 5, "Mestrado",
+        DOUTORADO = 6, "Doutorado"
 
     public_id = models.UUIDField(
-        default=uuid.uuid4, 
+        default=uuid.uuid4,
         unique=True,
         help_text=_("Sequência aleatória usada como identificador público."),
     )
@@ -51,8 +59,13 @@ class User(AbstractUser):
     phone = models.CharField(max_length=31, blank=True)
     linkedin = models.URLField(null=True)
     profile_title = models.CharField(max_length=255, null=True)
+    local = models.ForeignKey(Local, on_delete=models.SET_NULL, null=True)
     profile_description = models.TextField(null=True)
     reset_code = models.CharField(max_length=6, null=True, blank=True)
+    isPcd = models.BooleanField(default=False)
+    education_level = models.IntegerField(choices=EducationLevel.choices, default=EducationLevel.MEDIO)
+    comorbidade = models.CharField(max_length=255, null=True, blank=True)
+    isTravel = models.BooleanField(default=False)
     avatar = models.ForeignKey(
         Image,
         on_delete=models.CASCADE,
@@ -62,7 +75,7 @@ class User(AbstractUser):
         default=None,
     )
     passage_id = models.UUIDField(
-        default=uuid.uuid4(), 
+        default=uuid.uuid4(),
         unique=True,
         verbose_name=_("ID de passagem"),
         help_text=_("Identificador de passagem")

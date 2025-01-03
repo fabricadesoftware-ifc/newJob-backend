@@ -35,12 +35,33 @@ class UserProfileSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {"public_id": {"read_only": True}, "email": {"read_only": True}}
 
-
-class UserSerializer(serializers.ModelSerializer):
+class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
-
+        fields = [
+            "name",
+            "email",
+            "phone",
+            "avatar",
+            "linkedin",
+            "profile_description",
+            "isPcd",
+            "isTravel",
+            "education_level",
+            "comorbidade",
+        ]
+        extra_kwargs = {
+            "name": {"required": False},
+            "email": {"required": False},
+            "phone": {"required": False},
+            "avatar": {"required": False},
+            "linkedin": {"required": False},
+            "profile_description": {"required": False},
+            "isPcd": {"required": False},
+            "isTravel": {"required": False},
+            "education_level": {"required": False},
+            "comorbidade": {"required": False},
+        }
 
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
