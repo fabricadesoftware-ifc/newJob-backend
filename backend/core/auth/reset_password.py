@@ -17,13 +17,15 @@ def ResetPasswordUser(request):
     if not reset_code or not new_password:
         return Response({"message": "Todos os campos são necessários."}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = request.user  
+    user = request.user
 
     if user.reset_code != reset_code:
         return Response({"message": "Código de redefinição inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
     user.password = make_password(new_password)
-    user.reset_code = None 
+    user.reset_code = None
     user.save()
 
     return Response({"message": "Senha redefinida com sucesso."}, status=status.HTTP_200_OK)
+
+
