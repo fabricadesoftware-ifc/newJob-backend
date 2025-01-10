@@ -68,6 +68,7 @@ class User(AbstractUser):
         ]
     )
     local = models.ForeignKey(Local, on_delete=models.SET_NULL, null=True, blank=True)
+    linkedin = models.URLField(max_length=255, blank=True, null=True)
     avatar = models.ForeignKey(
         Image,
         on_delete=models.SET_NULL,

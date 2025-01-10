@@ -24,16 +24,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             "user_type",
             "public_id",
-            "first_name",
-            "last_name",
+            "name",
             "email",
             "phone",
             "linkedin",
-            "profile_title",
-            "profile_description",
             "avatar",
+            "description",
+            "local",
+            "cnpj",
+            "fantasy_name",
+            "ramo",
+            "comorbidade",
+            "pessoa_de_contato",
             "avatar_attachment_key",
         ]
+        depth = 1
         extra_kwargs = {"public_id": {"read_only": True}, "email": {"read_only": True}}
 
 
@@ -165,6 +170,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 class UserDetailsSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = [
@@ -172,4 +178,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "phone",
+            "local",
         ]
+        depth = 1

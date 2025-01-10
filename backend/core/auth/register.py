@@ -43,6 +43,7 @@ def RegisterUser(request):
 
     response_data = {
         "message": "Usuário criado com sucesso!",
+        "type": user.user_type,
         "id": user.id,
         "username": user.username,
         "email": user.email,
@@ -54,7 +55,7 @@ def RegisterUser(request):
 @authentication_classes([])
 @permission_classes([AllowAny])
 def RegisterCompany(request):
-    name = request.data.get("name")
+    username = request.data.get("username")
     fantasy_name = request.data.get("fantasy_name")
     email = request.data.get("email")
     cnpj = request.data.get("cnpj")
@@ -76,7 +77,7 @@ def RegisterCompany(request):
     hashed_password = make_password(password)
 
     company = User.objects.create(
-        name=name,
+        username=username,
         fantasy_name=fantasy_name,
         email=email,
         cnpj=cnpj,
@@ -88,7 +89,7 @@ def RegisterCompany(request):
     response_data = {
         "message": "Empresa criada com sucesso!",
         "id": company.id,
-        "name": company.name,
+        "name": company.username,
         "fantasy_name": company.fantasy_name,
         "email": company.email,
         "cnpj": company.cnpj,
