@@ -29,6 +29,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "phone",
             "linkedin",
             "avatar",
+            "description",
+            "local",
+            "cnpj",
+            "fantasy_name",
+            "ramo",
+            "comorbidade",
+            "pessoa_de_contato",
             "avatar_attachment_key",
         ]
         depth = 1
