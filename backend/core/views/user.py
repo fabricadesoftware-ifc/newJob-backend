@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from backend.core.models import User, Job, JobApplication
-from backend.core.serializers import UserProfileSerializer, UserUpdateSerializer
+from backend.core.serializers import UserProfileSerializer
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
@@ -11,8 +11,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_classes = {
         "list": UserProfileSerializer,
         "retrieve": UserProfileSerializer,
-        "update": UserUpdateSerializer,
-        "partial_update": UserUpdateSerializer,
+
     }
     default_serializer_class = UserProfileSerializer
     def get_serializer_class(self):
@@ -63,4 +62,4 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserUpdateSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK) 
+        return Response(serializer.data, status=status.HTTP_200_OK)

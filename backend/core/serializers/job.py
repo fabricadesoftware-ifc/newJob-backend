@@ -61,15 +61,12 @@ class JobCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = ["title", "benefits", "wage", "education_level", "isPcd", "isTravel", "deadline"]
-        
+
     def create(self, validated_data):
         benefits = validated_data.pop("benefits", [])
         job = Job.objects.create(**validated_data)
         job.benefits.set(benefits)
         return job
-
-
-
 
 class JobPagination(PageNumberPagination):
     page_size = 4

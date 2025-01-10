@@ -6,5 +6,5 @@ from .local import LocalSerializer
 from .state import StateSerializer
 from .category import CategorySerializer
 from .benefit import BenefitSerializer
-from .user import UserProfileSerializer, UserDetailsSerializer, UserUpdateSerializer
+from .user import UserProfileSerializer, UserDetailsSerializer, CompanyProfileUpdateSerializer, UserUpdateSerializer
 from .jobApplication import JobApplicationSerializer

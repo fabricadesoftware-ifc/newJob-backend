@@ -58,16 +58,16 @@ def RegisterCompany(request):
     fantasy_name = request.data.get("fantasy_name")
     email = request.data.get("email")
     cnpj = request.data.get("cnpj")
-    telefone = request.data.get("telefone")
+    phone = request.data.get("phone")
     password = request.data.get("password")
 
-    if not all([name, fantasy_name, email, cnpj, telefone, password]):
-        return Response(
-            {"message": "Todos os campos são obrigatórios!"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    # if not all([name, fantasy_name, email, cnpj, phone, password]):
+    #     return Response(
+    #         {"message": "Todos os campos são obrigatórios!"},
+    #         status=status.HTTP_400_BAD_REQUEST
+    #     )
 
-    if Company.objects.filter(cnpj=cnpj).exists() or Company.objects.filter(email=email).exists():
+    if User.objects.filter(cnpj=cnpj).exists() or User.objects.filter(email=email).exists():
         return Response(
             {"message": "CNPJ ou email já cadastrado!"},
             status=status.HTTP_400_BAD_REQUEST
@@ -75,12 +75,12 @@ def RegisterCompany(request):
 
     hashed_password = make_password(password)
 
-    company = Company.objects.create(
+    company = User.objects.create(
         name=name,
         fantasy_name=fantasy_name,
         email=email,
         cnpj=cnpj,
-        telefone=telefone,
+        phone=phone,
         password=hashed_password
     )
     company.save()
@@ -92,6 +92,6 @@ def RegisterCompany(request):
         "fantasy_name": company.fantasy_name,
         "email": company.email,
         "cnpj": company.cnpj,
-        "telefone": company.telefone,
+        "phone": company.phone,
     }
     return Response(response_data, status=status.HTTP_201_CREATED)

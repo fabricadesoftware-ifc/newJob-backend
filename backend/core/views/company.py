@@ -10,23 +10,9 @@ from rest_framework.exceptions import AuthenticationFailed
 
 
 
-
-class IsCompanyUser(BasePermission):
-    """
-    Permissão que verifica se o usuário autenticado é uma Company.
-    """
-    def has_permission(self, request, view):
-        user = request.user
-        if user and hasattr(user, 'is_authenticated') and user.is_authenticated:
-            # Aqui vamos verificar se o tipo do usuário no token é "company"
-            print(f"User authenticated: {user.username} (type: {request.auth.get('type')})")
-            if request.auth.get("type") == "company":
-                return True  # Se for uma "company", permite o acesso
-        return False  # Se não for "company", negamos o acesso
-
 class CompanyViewSet(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsCompanyUser]
+    permission_classes = [IsAuthenticated]
     lookup_field = "id"
     queryset = Company.objects.all()
     serializer_classes = {

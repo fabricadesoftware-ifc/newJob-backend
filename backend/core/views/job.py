@@ -20,8 +20,8 @@ class JobViewSet(viewsets.ModelViewSet):
     pagination_class = JobPagination
 
 
-
     def get_queryset(self):
+
         queryset = super().get_queryset()
         for job in queryset:
             job.check_expiration()

@@ -4,7 +4,6 @@ from .category import Category
 from backend.files.models import Image
 from django.utils import timezone
 from .user import User
-from .company import Company
 class Job(models.Model):
     class EducationLevel(models.IntegerChoices):
         FUNDAMENTAL = 1, "Ensino Fundamental",
@@ -23,9 +22,9 @@ class Job(models.Model):
     benefits = models.ManyToManyField(Benefit, related_name="jobs", blank=True)
     education_level = models.IntegerField(choices=EducationLevel.choices, default=EducationLevel.MEDIO)
     max_candidates = models.PositiveIntegerField(default=1)
-    category = models.ForeignKey(Category, related_name="jobs", on_delete=models.PROTECT, null=True, blank=True)
+    ramo = models.ForeignKey(Category, related_name="jobs", on_delete=models.PROTECT, null=True, blank=True)
     isExpired = models.BooleanField(default=False)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobs')
+    company = models.ForeignKey(User, on_delete=models.CASCADE, related_name='jobs')
     isClosed = models.BooleanField(default=False)
     image_job = models.ForeignKey(
         Image,
