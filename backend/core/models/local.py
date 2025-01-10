@@ -1,5 +1,7 @@
 from django.db import models
 from .state import State
+from django.core.exceptions import ValidationError
+
 
 
 class Local(models.Model):
