@@ -5,7 +5,7 @@ from backend.core import views
 router = DefaultRouter()
 
 router.register(r"companies", views.CompanyViewSet, basename="company")
-router.register(r"job", views.JobViewSet, basename="job")
+router.register(r"jobs", views.JobViewSet, basename="jobs")
 router.register(r"local", views.LocalViewSet, basename="local")
 router.register(r"state", views.StateViewSet, basename="state")
 router.register(r"user_job", views.JobApplicationViewSet, basename="user_job")
