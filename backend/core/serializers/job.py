@@ -4,6 +4,7 @@ from backend.core.serializers.company import CompanyDetailSerializer
 from backend.core.serializers.local import LocalDetailSerializer
 from rest_framework.pagination import PageNumberPagination
 from .jobApplication import JobApplicationSerializer
+from .user import UserDetailsSerializer
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -13,6 +14,8 @@ class JobSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True
     )
+    company = UserDetailsSerializer(read_only=True)
+    selected_user = UserDetailsSerializer(read_only=True)
     applications = JobApplicationSerializer(many=True, read_only=True)
     remaining_spots = serializers.SerializerMethodField()
 
