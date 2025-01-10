@@ -1,13 +1,13 @@
 from rest_framework import viewsets, status
+from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from backend.core.models import JobApplication, Job
 from backend.core.serializers import JobSerializer
-from backend.core.serializers.job import JobDetailSerializer, JobPagination
+from backend.core.serializers.job import JobDetailSerializer, JobPagination, JobCreateSerializer
 
 
 class JobViewSet(viewsets.ModelViewSet):
@@ -15,11 +15,13 @@ class JobViewSet(viewsets.ModelViewSet):
     permission_classes = []
     lookup_field = "id"
     queryset = Job.objects.all()
-    serializer_classes = {"list": JobSerializer, "retrieve": JobSerializer}
+    serializer_classes = {"list": JobSerializer, "retrieve": JobSerializer, "create": JobCreateSerializer}
     default_serializer_class = JobSerializer
     pagination_class = JobPagination
 
+
     def get_queryset(self):
+
         queryset = super().get_queryset()
         for job in queryset:
             job.check_expiration()
@@ -28,7 +30,7 @@ class JobViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         return self.serializer_classes.get(self.action, self.default_serializer_class)
-    
+
     @action(detail=True, methods=["post"])
     def select_candidate(self, request, id=None):
         """

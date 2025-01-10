@@ -8,7 +8,14 @@ from rest_framework.permissions import IsAuthenticated
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("id")
-    serializer_class = UserProfileSerializer
+    serializer_classes = {
+        "list": UserProfileSerializer,
+        "retrieve": UserProfileSerializer,
+
+    }
+    default_serializer_class = UserProfileSerializer
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.action, self.default_serializer_class)
 
     @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
     def me(self, request):
@@ -48,3 +55,11 @@ class UserViewSet(viewsets.ModelViewSet):
             {"message": "Candidatura realizada com sucesso"},
             status=status.HTTP_201_CREATED
         )
+
+    @action(detail=False, methods=["patch", "put"], permission_classes=[IsAuthenticated])
+    def atualizar_perfil(self, request):
+        user = request.user
+        serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

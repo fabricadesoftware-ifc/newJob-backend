@@ -88,12 +88,19 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = (
     "rules.permissions.ObjectPermissionBackend",
     "django.contrib.auth.backends.ModelBackend",
+    'backend.core.models.company.CompanyBackend',
 )
 
 AUTH_USER_MODEL = "core.User"
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'ALGORITHM': 'HS256',
 }
 
 
@@ -150,5 +157,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'gabriellima2803@gmail.com' 
-EMAIL_HOST_PASSWORD = 'dvwo mfks hyso corc' 
+EMAIL_HOST_USER = 'gabriellima2803@gmail.com'
+EMAIL_HOST_PASSWORD = 'dvwo mfks hyso corc'

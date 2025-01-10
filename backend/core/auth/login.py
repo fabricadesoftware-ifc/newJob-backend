@@ -5,16 +5,19 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
+from datetime import timedelta
+from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from ..models.user import User
+from ..models.company import Company
 
 
 User = get_user_model()
 
 @api_view(["POST"])
 @authentication_classes([])
-@permission_classes([])
+@permission_classes([AllowAny])
 def LoginUser(request):
     value = request.data.get("value")
     password = request.data.get("password")
@@ -22,44 +25,22 @@ def LoginUser(request):
     print("Password:", password)
 
     if value is not None and password is not None:
-        try:
+
             user = User.objects.get(Q(username=value) | Q(email=value))
-            print("Stored Password:", user.password)
-            print("Password Check:", check_password(password, user.password))
-            print("Is user active:", user.is_active)
-            username = user.username
-            print("User found in database:", username)
-
-            user_auth = authenticate(username=username, password=password)
-            print("Authentication result:", user_auth)
-
-            if user_auth is not None:
+            if user and check_password(password, user.password):
                 refresh = RefreshToken.for_user(user)
-                access = AccessToken.for_user(user_auth)
+                access = refresh.access_token
 
                 response_data = {
                     "refresh": str(refresh),
                     "access": str(access),
-                    "username": user_auth.username,
-                    "email": user_auth.email,
-                    "id": user_auth.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "id": user.id,
+                    "type": user.user_type,
                     "message": "Login realizado com sucesso!"
                 }
                 return Response(response_data, status=status.HTTP_200_OK)
-            else:
-                print("Authentication failed for the user")
-
-        except User.DoesNotExist:
-            user = None
-            print("User not found in the database")
-            
-    else:
-        return Response(
-            {"message": "Credenciais inválidas!"}, status=status.HTTP_400_BAD_REQUEST
-        )
-
-    print("Final user object:", user)
-
     return Response(
         {"message": "Credenciais inválidas!"},
         status=status.HTTP_400_BAD_REQUEST
