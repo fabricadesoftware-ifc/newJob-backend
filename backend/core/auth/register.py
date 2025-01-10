@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
+from django.contrib.auth.hashers import make_password
 
 from ..models.user import User
 from ..models.company import Company
@@ -54,31 +55,41 @@ def RegisterUser(request):
 @permission_classes([AllowAny])
 def RegisterCompany(request):
     name = request.data.get("name")
-    fantsy_name = request.data.get("fantsy_name")
+    fantasy_name = request.data.get("fantasy_name")
     email = request.data.get("email")
     cnpj = request.data.get("cnpj")
     telefone = request.data.get("telefone")
+    password = request.data.get("password")
 
-    if not name or not fantsy_name or not email or not cnpj or not telefone:
+    if not all([name, fantasy_name, email, cnpj, telefone, password]):
         return Response(
-            {"message": "Dados de empresa inválidos!"},
+            {"message": "Todos os campos são obrigatórios!"},
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    if Company.objects.filter(cnpj=cnpj).exists():
+    if Company.objects.filter(cnpj=cnpj).exists() or Company.objects.filter(email=email).exists():
         return Response(
-            {"message": "Empresa ja cadastrada"},
+            {"message": "CNPJ ou email já cadastrado!"},
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    company = Company.objects.create(name=name, fantsy_name=fantsy_name, email=email, cnpj=cnpj, telefone=telefone)
+    hashed_password = make_password(password)
+
+    company = Company.objects.create(
+        name=name,
+        fantasy_name=fantasy_name,
+        email=email,
+        cnpj=cnpj,
+        telefone=telefone,
+        password=hashed_password
+    )
     company.save()
 
     response_data = {
         "message": "Empresa criada com sucesso!",
         "id": company.id,
         "name": company.name,
-        "fantsy_name": company.fantsy_name,
+        "fantasy_name": company.fantasy_name,
         "email": company.email,
         "cnpj": company.cnpj,
         "telefone": company.telefone,

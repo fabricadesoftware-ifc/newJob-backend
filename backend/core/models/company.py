@@ -2,10 +2,21 @@ from django.db import models
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
 from django.core.exceptions import ValidationError
 from .contractType import ContractType
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.backends import BaseBackend
 from .local import Local
+from django.contrib.auth.hashers import make_password
 from backend.files.models import Image
-from .job import Job
 
+class CompanyBackend(BaseBackend):
+    def authenticate(self, request, email=None, password=None):
+        try:
+            company = Company.objects.get(email=email)
+            if company and check_password(password, company.password):
+                return company
+        except Company.DoesNotExist:
+            return None
 
 def validate_cnpj(value):
     if not value.isdigit() or len(value) != 14:
@@ -29,6 +40,8 @@ class Company(models.Model):
         help_text="Digite um CNPJ válido com 14 dígitos."
     )
     email = models.EmailField(unique=True, help_text="Digite um email válido.")
+    password = models.CharField(max_length=128, help_text="Senha da empresa (hash).")
+    reset_code = models.CharField(max_length=6, null=True, blank=True)
     ramo = models.CharField(
         max_length=3,
         choices=BusinessArea.choices,
@@ -49,19 +62,18 @@ class Company(models.Model):
         null=True
     )
     local = models.ForeignKey(Local, on_delete=models.CASCADE, blank=True, null=True)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE, blank=True, null=True)
     pessoa_de_contato = models.CharField(
         max_length=255,
         help_text="Digite o nome completo da pessoa de contato na empresa.",
         blank=True,
         null=True
-    )    
-    logo = models.ForeignKey(Image,  related_name="+",       
+    )
+    logo = models.ForeignKey(Image,  related_name="+",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         default=None,)
-    
+
 
     def __str__(self):
         return self.name

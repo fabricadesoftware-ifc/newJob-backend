@@ -4,7 +4,7 @@ from .category import Category
 from backend.files.models import Image
 from django.utils import timezone
 from .user import User
-
+from .company import Company
 class Job(models.Model):
     class EducationLevel(models.IntegerChoices):
         FUNDAMENTAL = 1, "Ensino Fundamental",
@@ -25,10 +25,11 @@ class Job(models.Model):
     max_candidates = models.PositiveIntegerField(default=1)
     category = models.ForeignKey(Category, related_name="jobs", on_delete=models.PROTECT, null=True, blank=True)
     isExpired = models.BooleanField(default=False)
-    isClosed = models.BooleanField(default=False) 
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobs')
+    isClosed = models.BooleanField(default=False)
     image_job = models.ForeignKey(
-        Image, 
-        related_name="+",       
+        Image,
+        related_name="+",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -45,7 +46,7 @@ class Job(models.Model):
     def check_expiration(self):
         if self.deadline < timezone.now().date():
             self.isExpired = True
-            self.isClosed = True  
+            self.isClosed = True
             self.save()
         else:
             self.isExpired = False

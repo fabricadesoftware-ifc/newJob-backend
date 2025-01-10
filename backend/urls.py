@@ -39,11 +39,10 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
-    # Administration site
     path("api/admin/", admin.site.urls),
     path("api/login/", LoginUser, name="login"),
     path("api/register/", RegisterUser, name="register"),
-    path("api/register-company/", RegisterCompany, name="register-company  "),
+    path("api/register-company/", RegisterCompany, name="register-company"),
     path("api/forgot-password/", ForgotPasswordUser, name="forgot-password"),
     path("api/reset-password/", ResetPasswordUser, name="reset-password"),
 
