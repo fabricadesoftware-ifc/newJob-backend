@@ -21,6 +21,8 @@ from backend.core.auth.register import RegisterUser, RegisterCompany
 from backend.core.auth.reset_password import ResetPasswordUser
 from backend.core.auth.forgot_password import ForgotPasswordUser
 
+from backend.core.api import get_job_applications, UpdateCompany, UpdateUser, create_job
+
 urlpatterns = [
     path("api/", include(router.urls)),
     path("api/v1/files/", include(router_files.urls)),
@@ -46,6 +48,10 @@ urlpatterns = [
     path("api/forgot-password/", ForgotPasswordUser, name="forgot-password"),
     path("api/reset-password/", ResetPasswordUser, name="reset-password"),
 
+    path("api/jobs/<int:job_id>/applications/", get_job_applications, name="job-applications"),
+    path("api/jobs/", create_job, name="create-job"),
+    path("api/company/update/", UpdateCompany, name="update-company"),
+    path("api/user/update/", UpdateUser, name="update-user"),
 
 ]
 
