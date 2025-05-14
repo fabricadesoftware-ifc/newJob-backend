@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from backend.core.models import Company
-from .contractType import ContractTypeSerializer
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -13,4 +12,5 @@ class CompanySerializer(serializers.ModelSerializer):
 class CompanyDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ["id", "name", "cnpj"]
+        fields = ["id", "name", "cnpj", "city", "state", "logo"]
+        depth = 1

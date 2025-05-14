@@ -1,22 +1,23 @@
 from django.db import models
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
 from django.core.exceptions import ValidationError
-from .contractType import ContractType
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.backends import BaseBackend
 from .local import Local
 from django.contrib.auth.hashers import make_password
 from backend.files.models import Image
-
-class CompanyBackend(BaseBackend):
-    def authenticate(self, request, email=None, password=None):
-        try:
-            company = Company.objects.get(email=email)
-            if company and check_password(password, company.password):
-                return company
-        except Company.DoesNotExist:
-            return None
+from .state import State
+from .city import City
+from .user import User
+# class CompanyBackend(BaseBackend):
+#     def authenticate(self, request, email=None, password=None):
+#         try:
+#             company = Company.objects.get(email=email)
+#             if company and check_password(password, company.password):
+#                 return company
+#         except Company.DoesNotExist:
+#             return None
 
 def validate_cnpj(value):
     if not value.isdigit() or len(value) != 14:
@@ -33,6 +34,13 @@ class Company(models.Model):
         OUTRO = "OUT", "Outro"
     name = models.CharField(max_length=255)
     fantasy_name = models.CharField(max_length=255, blank=True, null=True)
+    owner_user = models.ForeignKey(
+        User,
+        related_name="user",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     cnpj = models.CharField(
         max_length=14,
         unique=True,
@@ -40,15 +48,8 @@ class Company(models.Model):
         help_text="Digite um CNPJ válido com 14 dígitos."
     )
     email = models.EmailField(unique=True, help_text="Digite um email válido.")
-    password = models.CharField(max_length=128, help_text="Senha da empresa (hash).")
+    # password = models.CharField(max_length=128, help_text="Senha da empresa (hash).")
     reset_code = models.CharField(max_length=6, null=True, blank=True)
-    ramo = models.CharField(
-        max_length=3,
-        choices=BusinessArea.choices,
-        help_text="Escolha o ramo de atuação da empresa.",
-        blank=True,
-        null=True
-    )
     telefone = models.CharField(
         max_length=15,
         validators=[
@@ -61,13 +62,17 @@ class Company(models.Model):
         blank=True,
         null=True
     )
-    local = models.ForeignKey(Local, on_delete=models.CASCADE, blank=True, null=True)
-    pessoa_de_contato = models.CharField(
-        max_length=255,
-        help_text="Digite o nome completo da pessoa de contato na empresa.",
-        blank=True,
-        null=True
+    state = models.ForeignKey(
+        State,
+        related_name="stateComp",
+        on_delete=models.CASCADE
     )
+    city = models.ForeignKey(
+        City,
+        related_name="cityComp",
+        on_delete=models.CASCADE
+    )
+    address =  models.CharField(max_length=80, null=True, blank=True)
     logo = models.ForeignKey(Image,  related_name="+",
         on_delete=models.SET_NULL,
         null=True,
