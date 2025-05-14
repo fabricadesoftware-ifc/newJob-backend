@@ -11,6 +11,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",
     "http://192.168.100.38:8080",
+    "http://localhost:5173"
 )
 
 INSTALLED_APPS = [
@@ -88,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = (
     "rules.permissions.ObjectPermissionBackend",
     "django.contrib.auth.backends.ModelBackend",
-    'backend.core.models.company.CompanyBackend',
+    # 'backend.core.models.company.CompanyBackend',
 )
 
 AUTH_USER_MODEL = "core.User"

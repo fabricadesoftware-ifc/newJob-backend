@@ -1,6 +1,5 @@
 from .user import User
 from .company import Company
-from .contractType import ContractType
 from .job import Job
 from .local import Local
 from .state import State
@@ -8,3 +7,5 @@ from .state import State
 from .benefit import Benefit
 from .category import Category
 from .jobApplication import JobApplication
+from .city import City
+from .state import State

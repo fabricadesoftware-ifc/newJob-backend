@@ -20,7 +20,7 @@ def create_job(request):
     isPcd = request.data.get("isPcd", False)
     isTravel = request.data.get("isTravel", False)
     wage = request.data.get("wage")
-    education_level = request.data.get("education_level", Job.EducationLevel.MEDIO)
+    education_level = request.data.get("education_level", Job.ContractType.ESTAGIARIO)
     max_candidates = request.data.get("max_candidates", 1)
     ramo_id = request.data.get("ramo")
     benefits_ids = request.data.get("benefits", [])

@@ -89,7 +89,6 @@ def RegisterCompany(request):
     response_data = {
         "message": "Empresa criada com sucesso!",
         "id": company.id,
-        "name": company.username,
         "fantasy_name": company.fantasy_name,
         "email": company.email,
         "cnpj": company.cnpj,

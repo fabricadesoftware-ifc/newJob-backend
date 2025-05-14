@@ -28,12 +28,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(blank=True, max_length=255, null=True)),
             ],
         ),
-        migrations.AlterModelManagers(
-            name='user',
-            managers=[
-                ('objects', backend.core.models.user.UserManager()),
-            ],
-        ),
         migrations.AddField(
             model_name='job',
             name='educatiol_Level',

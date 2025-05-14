@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from ..models.user import User
-from ..serializers.user import CompanyProfileUpdateSerializer, UserUpdateSerializer
+from ..serializers.user import UserUpdateSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 @api_view(["PUT"])
@@ -12,13 +12,6 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 def UpdateCompany(request):
     user = request.user
 
-    if user.user_type != User.UserType.COMPANY:
-        return Response(
-            {"detail": "Apenas usuários do tipo 'Empresa' podem atualizar o perfil."},
-            status=status.HTTP_403_FORBIDDEN
-        )
-
-    serializer = CompanyProfileUpdateSerializer(user, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()
