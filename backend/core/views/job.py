@@ -25,7 +25,6 @@ class JobViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset()
         for job in queryset:
             job.check_expiration()
-            job.check_max_candidates()
         return queryset
 
     def get_serializer_class(self):

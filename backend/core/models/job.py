@@ -1,31 +1,38 @@
 from django.db import models
 from .benefit import Benefit
-from .category import Category
+from .state import State
+from .company import Company
+from .city import City
 from backend.files.models import Image
 from django.utils import timezone
-from .user import User
 class Job(models.Model):
-    class EducationLevel(models.IntegerChoices):
-        FUNDAMENTAL = 1, "Ensino Fundamental",
-        MEDIO = 2, "Ensino Médio",
-        SUPERIOR = 3, "Ensino Superior",
-        GRADUACAO = 4, "Pós-Graduação",
-        MESTRADO = 5, "Mestrado",
-        DOUTORADO = 6, "Doutorado"
-
-    title = models.CharField(max_length=255)
-    description = models.TextField()
+    class ContractType(models.IntegerChoices):
+        CLT = 1, "CLT",
+        ESTAGIARIO = 2, "Estagiário",
+        PJ = 3, "PJ",
+        FREELANCER = 4, "Freelancer"
+    title = models.CharField(max_length=80)
+    contract_type = models.IntegerField(choices=ContractType.choices, default=ContractType.ESTAGIARIO)
+    state = models.ForeignKey(
+        State,
+        related_name="state",
+        on_delete=models.CASCADE
+    )
+    city = models.ForeignKey(
+        City,
+        related_name="city",
+        on_delete=models.CASCADE
+    )
+    address =  models.CharField(max_length=80, null=True, blank=True)
+    summary = models.TextField(max_length=200, null=True, blank=True)
+    details = models.TextField(max_length=5000, null=True, blank=True)
+    start = models.DateField(null=True, blank=True)
     deadline = models.DateField()
-    isPcd = models.BooleanField(default=False)
     isTravel = models.BooleanField(default=False)
-    wage = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    benefits = models.ManyToManyField(Benefit, related_name="jobs", blank=True)
-    education_level = models.IntegerField(choices=EducationLevel.choices, default=EducationLevel.MEDIO)
-    max_candidates = models.PositiveIntegerField(default=1)
-    ramo = models.ForeignKey(Category, related_name="jobs", on_delete=models.PROTECT, null=True, blank=True)
+    wage = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    benefits = models.ManyToManyField(Benefit, related_name="benefits", blank=True)
     isExpired = models.BooleanField(default=False)
-    company = models.ForeignKey(User, on_delete=models.CASCADE, related_name='jobs')
-    isClosed = models.BooleanField(default=False)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobs')
     image_job = models.ForeignKey(
         Image,
         related_name="+",
@@ -34,27 +41,14 @@ class Job(models.Model):
         blank=True,
         default=None,
     )
-    selected_user = models.ForeignKey(
-        User,
-        related_name="selected_jobs",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
-    )
 
     def check_expiration(self):
         if self.deadline < timezone.now().date():
             self.isExpired = True
-            self.isClosed = True
             self.save()
         else:
             self.isExpired = False
             self.save()
 
-    def check_max_candidates(self):
-        if self.applications.count() >= self.max_candidates:
-            self.isClosed = True
-            self.save()
-
     def __str__(self):
-        return self.title
+        return (f"{self.title} - {self.company}")
