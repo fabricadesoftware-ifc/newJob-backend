@@ -5,6 +5,8 @@ from .company import Company
 from .city import City
 from backend.files.models import Image
 from django.utils import timezone
+import datetime
+
 class Job(models.Model):
     class ContractType(models.IntegerChoices):
         CLT = 1, "CLT",
@@ -27,7 +29,7 @@ class Job(models.Model):
     summary = models.TextField(max_length=200, null=True, blank=True)
     details = models.TextField(max_length=5000, null=True, blank=True)
     start = models.DateField(null=True, blank=True)
-    deadline = models.DateField()
+    deadline = models.DateField(default= datetime.date.today() + datetime.timedelta(days=30))
     isTravel = models.BooleanField(default=False)
     wage = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     benefits = models.ManyToManyField(Benefit, related_name="benefits", blank=True)

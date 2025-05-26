@@ -34,6 +34,7 @@ class Company(models.Model):
         OUTRO = "OUT", "Outro"
     name = models.CharField(max_length=255)
     fantasy_name = models.CharField(max_length=255, blank=True, null=True)
+    about = models.TextField(max_length=1500, default="Esta empresa não possuí descrição ainda.")
     owner_user = models.ForeignKey(
         User,
         related_name="user",

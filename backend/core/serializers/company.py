@@ -6,7 +6,7 @@ from backend.core.models import Company
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ["id", "name", "email", "cnpj"]
+        fields = ["id", "name", "email", "cnpj", "about"]
 
 
 class CompanyDetailSerializer(serializers.ModelSerializer):
